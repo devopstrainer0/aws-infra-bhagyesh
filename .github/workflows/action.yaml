@@ -4,6 +4,18 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Select option for build or deployement'
+        required: true
+        default: 'warning' 
+        type: choice
+        options:
+        - info
+        - warning
+        - debug 
+      
 
 jobs:
   deploy:
@@ -13,10 +25,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-
-
     - name: Install Terraform
       run: |
+        echo "${{ github.event.inputs.logLevel }}"
         sudo apt-get update
         sudo apt-get install -y unzip
         wget https://releases.hashicorp.com/terraform/0.14.3/terraform_0.14.3_linux_amd64.zip

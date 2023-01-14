@@ -29,7 +29,7 @@ jobs:
       env:
         ENABLE_FEATURE: ${{ inputs.logLevel }}
       run: |
-        echo  the value is ${ENABLE_FEATURE}
+        echo  "the value is ${ENABLE_FEATURE}"
         sudo apt-get update
         sudo apt-get install -y unzip
         wget https://releases.hashicorp.com/terraform/0.14.3/terraform_0.14.3_linux_amd64.zip

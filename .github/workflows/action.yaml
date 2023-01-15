@@ -34,4 +34,19 @@ jobs:
         unzip terraform_0.14.3_linux_amd64.zip
         sudo mv terraform /usr/local/bin/
         terraform --version
+        - name: Run command
+      
+    - name: Install Terraform 
+      run: |
+        echo "Hi Bhagyesh"
 
+    - name: Approval
+      id: approval_step
+      uses: actions/request-approval@v2
+      with:
+        reviewers: devopstrainer0
+
+    - name: Deploy
+      if: steps.approval_step.outputs.approved == 'true'
+      run: |
+        echo "Deploying..."

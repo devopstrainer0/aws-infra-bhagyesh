@@ -49,23 +49,3 @@ jobs:
     - name: test2 Terraform 
       run: |
         echo "Hi test2 Bhagyesh"
-
-    - name: Approval
-      id: approval_step
-      uses: actions/request-approval@v2
-      with:
-        reviewers: john_doe, jane_doe
-        cancel-jobs: cancel_job
-        
-    - name: Cancel job
-      id: cancel_job
-      if: steps.approval_step.outputs.cancelled == 'true'
-      run: |
-        echo "Cancelling Job..."
-        echo "::set-output name=cancelled::true"
-        exit 0
-        
-    - name: Deploy
-      if: steps.approval_step.outputs.approved == 'true' && steps.approval_step.outputs.cancelled != 'true'
-      run: |
-        echo "Deploying..."

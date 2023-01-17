@@ -1,5 +1,5 @@
 module "compute_instance" {
-  source              = "../../../modules/compute_instance"
+  source              = "git@github.com:bhagyesh009/gcp-module.git"
   region              = var.region
   zone                = var.zone
   subnetwork          = var.subnetwork

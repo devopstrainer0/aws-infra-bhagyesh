@@ -1,21 +1,9 @@
-name: Deploy to AWS
+name: Terraform Deployment
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      dry-run:
-       description: 'Select this for dry run'
-       required: true
-       default: 'false'
-       type: boolean
-      deploy:
-       description: 'Select this for deployment'
-       required: true
-       default: 'false'
-       type: boolean
 
 jobs:
   deploy:
@@ -25,33 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Terraform
-      if: inputs.dry-run == 'true'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y unzip
-        wget https://releases.hashicorp.com/terraform/0.14.3/terraform_0.14.3_linux_amd64.zip
-        unzip terraform_0.14.3_linux_amd64.zip
-        sudo mv terraform /usr/local/bin/
-        terraform --version
-        - name: Run command
-      
-    - name: Install Terraform 
-      if: inputs.deploy == 'true'
-      run: |
-        echo "Hi Bhagyesh"
-
-    - name: test Terraform 
-      if: inputs.dry-run == 'false'
-      run: |
-        echo "Hi test Bhagyesh"
-        
-    - name: Wait for Approval
-      id: wait-for-approval
-      uses: actions/request-review@v2
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
       with:
-        reviewers: devopstrainer0
+        terraform_version: 0.15.0
 
-    - name: test2 Terraform 
-      run: |
-        echo "Hi test2 Bhagyesh"
+    - name: Fetch private module
+      run: terraform init
